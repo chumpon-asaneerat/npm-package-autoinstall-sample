@@ -1,0 +1,20 @@
+{
+  "name": "npm-package-autoinstall-sample",
+  "version": "1.0.0",
+  "description": "npm package auto installer sample",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample.git"
+  },
+  "author": "Chumpon Asaneerat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample/issues"
+  },
+  "homepage": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample#readme"
+}
