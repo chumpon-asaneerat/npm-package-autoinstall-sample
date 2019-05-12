@@ -1,83 +1,74 @@
 console.log('nlib install process...start.');
 
-const npmi = require('npmi');
-const path = require('path');
+let useNPMI = false;
 
-console.log(npmi.NPM_VERSION); // prints the installed npm version used by npmi
+if (useNPMI) {
+    // Note: to use npmi required to uninstall npm package..
+    
+    // use npmi
+    console.log('use npmi.............');
 
-var options = {
-  name: 'your-module',	// your module name
-  version: '0.0.1',		// expected version [default: 'latest']
-  path: '.',				// installation path [default: '.']
-  forceInstall: false,	// force install if set to true (even if already installed, it will do a reinstall) [default: false]
-  npmLoad: {				// npm.load(options, callback): this is the "options" given to npm.load()
-    loglevel: 'silent'	// [default: {loglevel: 'silent'}]
-  }
-};
+    const npmi = require('npmi');
+    const path = require('path');
 
-let opts = {
-  name: 'express',
-  version: 'latest',
-  path: '.',
-  forceInstall: false
-}
-
-npmi(opts, function (err, result) {
-  if (err) {
-    if (err.code === npmi.LOAD_ERR) console.log('npm load error');
-    else if (err.code === npmi.INSTALL_ERR) console.log('npm install error');
-    return console.log(err.message);
-  }
-
-  // installed
-  console.log(opts.name + '@' + opts.version + ' installed successfully in ' + path.resolve(opts.path));
-});
-
-
-/*
-// required to install npm package locally.
-//var npm = require("npm");
-const npm = require('npm');
-
-let opts = {
-    loaded: false
-}
-
-npm.load(opts, function (err) {
-  console.log('npm load..');
-  npm.on("log", function (message) {
-    // log the progress of the installation
-    console.log(message);
-  });
-  if (!err) {
-    //let pkgName = "hello-world@0.0.1";
-    let pkgList = ["express"];
-    try {
-      npm.commands.install(pkgList, function(er, data) {
-        console.log(er);
-        console.log(data);
-      })
+    let opts = {
+        // your module name
+        name: 'express',
+        // expected version [default: 'latest']
+        version: 'latest',
+        // installation path [default: '.']
+        path: '.',
+        // force install if set to true (even if already installed, it will do a reinstall) [default: false]
+        forceInstall: false /*,
+        // npm.load(options, callback): this is the "options" given to npm.load()
+        npmLoad: {
+            // [default: {loglevel: 'silent'}]
+            loglevel: 'silent'
+        }
+        */
     }
-    catch (ex) {
-      console.log(ex);
+    let showErr = (err) => {
+        if (err.code === npmi.LOAD_ERR) console.log('npm load error');
+        else if (err.code === npmi.INSTALL_ERR) console.log('npm install error');
+        return console.log(err.message);
     }
-  }
-});
 
-*/
+    npmi(opts, function (err, result) {
+        if (!err) {
+            // installed
+            console.log(opts.name + '@' + opts.version + ' installed successfully in ' + path.resolve(opts.path));
+        }
+        else showErr(err);
+    });
+}
+else {
+    // use npm
+    console.log('use npm.............');
 
-/*
-npm.load(opts, function (err) {
-  // catch errors
-  //npm.commands.install(["hello-world@0.0.1"], function (er, data) {
-    // log the error or data
-  //});
-  npm.on("log", function (message) {
-    // log the progress of the installation
-    console.log(message);
-  });
-});
+    const npm = require('npm');
+    let opts = {
+        loaded: false
+    }
 
-*/
+    npm.on("log", function (message) {
+        // log the progress of the installation
+        console.log(message);
+    });
+
+    npm.load(opts, function (err) {
+        if (!err) {
+            let pkgList = ["express"];
+            try {
+                npm.commands.install(pkgList, function (er, data) {
+                    console.log(er);
+                    console.log(data);
+                })
+            }
+            catch (ex) {
+                console.log(ex);
+            }
+        }
+    });
+}
 
 console.log('nlib install process...finished.');
