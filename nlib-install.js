@@ -1,56 +1,61 @@
-console.log('nlib install process...start.');
-
-// use npm
-console.log('use npm.............');
-
-const npm = require('npm');
-
-let globalOpts = {
-    loaded: false,
-    global: true,
-    save: true,
-    'save-dev': false
+const install = async (pkg) => {
+    let r = require;
+    let cmd = `npm install ${pkg} --save`;
+    console.log('execute:' + cmd);
+    r('child_process').execSync(cmd);
+    await setImmediate(() => { });
+    await isInstalled(pkg);
 }
 
-let localOpts = {
-    loaded: false,
-    global: false,
-    save: true,
-    'save-dev': false
+const installDev = async (pkg) => {
+    let r = require;
+    let cmd = `npm install ${pkg} --save-dev`;
+    console.log('execute:' + cmd);
+    r('child_process').execSync(cmd);
+    await setImmediate(() => { });
+    await isInstalled(pkg);
 }
 
-let localDevOpts = {
-    loaded: false,
-    global: false,
-    save: false, // if true will save to dependencies not devDependencies
-    'save-dev': true // required to be true.
+const uninstall = async (pkg) => {
+    let r = require;
+    let cmd = `npm uninstall ${pkg} --save`;
+    console.log('execute:' + cmd);
+    r('child_process').execSync(cmd);
+    await setImmediate(() => { });
+    await isUninstalled(pkg);
 }
 
-
-npm.on("log", function (message) {
-    // log the progress of the installation
-    console.log(message);
-});
-
-//let pkgList = ["express"];
-let pkgList = ["mssql"];
-
-let currpkg = require('./package.json');
-
-console.log(currpkg.dependencies);
-
-npm.load(localOpts, function (err) {
-    if (!err) {        
-        try {
-            npm.commands.install(pkgList, function (er, data) {
-                console.log(er);
-                //console.log(data);
-            });
-        }
-        catch (ex) {
-            console.log(ex);
-        }
+const isInstalled = async (pkg) => {
+    let r = require;
+    try {
+        o = r.resolve(pkg) 
+        console.log(`"${pkg}" has been installed.`);
     }
-});
+    catch (err) {
+        console.log(`"${pkg}" not found.`);
+    }
+}
 
-console.log('nlib install process...finished.');
+const isUninstalled = async (pkg) => {
+    let r = require;
+    try {
+        o = r.resolve(pkg) 
+        console.log(`"${pkg}" cannot uninstalled completely.`);
+    }
+    catch (err) {
+        console.log(`"${pkg}" has been uninstalled.`);
+    }
+}
+
+(async () => {
+    // Note: in some case when re-install package permission denined occur somtime.
+    // try to close vscode and restart task again.
+
+    //await install('express');
+    //await install('mssql');
+    //await installDev('gulp');
+
+    //await uninstall('gulp');
+    //await uninstall('mssql');
+    //await uninstall('express');
+})();
