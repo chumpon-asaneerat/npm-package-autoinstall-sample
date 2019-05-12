@@ -17,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample/issues"
   },
-  "homepage": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample#readme"
+  "homepage": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample#readme",
+  "devDependencies": {
+    "npmi": "^4.0.0"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "express": "^4.16.4"
+  }
 }
