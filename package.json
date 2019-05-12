@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/chumpon-asaneerat/npm-package-autoinstall-sample#readme",
   "devDependencies": {
-    "npm": "^6.9.0",
-    "npmi": "^4.0.0"
+    "@types/npm": "^2.0.30",
+    "npm": "^6.9.0"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "@types/mssql": "^4.0.13",
+    "mssql": "^5.1.0"
   }
 }
